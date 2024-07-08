@@ -1,0 +1,241 @@
+basePath: /
+definitions:
+  genprotos.CreateUser:
+    properties:
+      email:
+        type: string
+      exp:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      position_id:
+        type: string
+      rating:
+        type: number
+      role:
+        type: string
+      token:
+        type: string
+    type: object
+  genprotos.LoginRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  genprotos.LogoutRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  genprotos.UpdateUser:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  genprotos.UpdateUserForAdmin:
+    properties:
+      id:
+        type: string
+      position_id:
+        type: string
+      role:
+        type: string
+    type: object
+  genprotos.Void:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Voting service
+  version: "1.0"
+paths:
+  /user/admin/update:
+    put:
+      consumes:
+      - application/json
+      description: Update user details for admin
+      parameters:
+      - description: Update User For Admin
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.UpdateUserForAdmin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Update Successful
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "400":
+          description: Error while updating
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update user for admin
+      tags:
+      - Users
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Create page
+      parameters:
+      - description: Create
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Create Successful
+          schema:
+            type: string
+        "401":
+          description: Error while Created
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Login
+      tags:
+      - Users
+  /user/logout:
+    delete:
+      consumes:
+      - application/json
+      description: Delete page
+      parameters:
+      - description: Logout
+        in: body
+        name: Logout
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.LogoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logout Successful
+          schema:
+            type: string
+        "401":
+          description: Error while Deleted
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Logout
+      tags:
+      - Users
+  /user/refreshTokenRequest:
+    get:
+      consumes:
+      - application/json
+      description: Create page
+      parameters:
+      - in: query
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful
+          schema:
+            type: string
+        "401":
+          description: Error while Created
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Login
+      tags:
+      - Users
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Create page
+      parameters:
+      - description: Create
+        in: body
+        name: Create
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Create Successful
+          schema:
+            type: string
+        "401":
+          description: Error while Created
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Registr
+      tags:
+      - Users
+  /user/update:
+    put:
+      consumes:
+      - application/json
+      description: Update user details
+      parameters:
+      - description: Update User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.UpdateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Update Successful
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "400":
+          description: Error while updating
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update user
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authourization
+    type: apiKey
+swagger: "2.0"
